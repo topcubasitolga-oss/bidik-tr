@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8">
+<script>(function(){if(!/github\.io$/.test(location.hostname))return;var h="https://bidik.tr"+location.pathname.replace(/^\/bidik/,"")+location.search+location.hash;var go=function(){location.replace(h)};try{if("serviceWorker" in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister()}))}).then(function(){return caches&&caches.keys?caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k)}))}):null}).then(go,go);setTimeout(go,2500)}else go()}catch(e){go()}})();</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2fae9f">
+<link rel="icon" href="simgeler/simge-192.png">
+<link rel="apple-touch-icon" href="simgeler/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Bidik Öğretmen Rehberi</title>
+<meta name="description" content="Bidik öğretmen rehberi: ders akışı, kavram tablosu, sorulacak sorular ve sınıf yönetimi önerileri.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@500;700;800&display=swap">
+<style>
+/* Rehber: basılı ders planı gibi okunan, tek sütunlu sade düzen. */
+:root{--sky:#dff4f1;--ink:#16324a;--ink-soft:#466179;--panel:#fff;--panel-line:#cfe7e3;--teal:#0e6f7c;--red:#e8443a;--rail:#ffc93c;--rail-edge:#d99a00;
+--display:"Baloo 2","Trebuchet MS","Segoe UI",system-ui,sans-serif;--body:"Nunito","Segoe UI",system-ui,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--sky);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
+.wrap{max-width:860px;margin:0 auto;padding-inline:20px;padding-block:18px 48px}
+h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance}
+h1{font-size:clamp(36px,6vw,54px);margin:18px 0 8px}
+h2{font-size:30px;margin:40px 0 12px}
+h3{font-size:21px;margin:22px 0 6px}
+p,li{color:var(--ink-soft);font-weight:600}
+b,strong{color:var(--ink)}
+a{color:var(--teal);font-weight:800}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.top a.home{font-family:var(--display);font-size:26px;color:var(--ink);text-decoration:none}
+.top a.home span{color:var(--red)}
+.btn{display:inline-flex;align-items:center;height:46px;padding:0 18px;border-radius:14px;background:var(--rail);box-shadow:0 4px 0 var(--rail-edge);color:var(--ink);text-decoration:none;font-family:var(--display);font-size:19px}
+.card{background:var(--panel);border:2px solid var(--panel-line);border-radius:20px;padding:6px 20px 16px;margin:14px 0}
+.tbl{overflow-x:auto;background:var(--panel);border-radius:18px;border:2px solid var(--panel-line)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--panel-line);vertical-align:top}
+th{font-family:var(--display);font-size:16px;background:#f3fbf9}
+td{color:var(--ink-soft);font-weight:600}
+td:first-child{color:var(--ink);font-weight:800;white-space:nowrap}
+.tip{border-left:6px solid var(--rail);background:var(--panel);padding:10px 16px;border-radius:0 14px 14px 0}
+ol,ul{padding-left:22px}
+li{margin:4px 0}
+.ttr{display:flex;align-items:center;gap:14px;justify-content:center;padding:18px 0 30px;border-top:1px solid rgba(22,50,74,.12);margin-top:8px}.ttr img{width:96px;height:auto;flex:none}.ttr p{margin:0;font-size:13px;line-height:1.5;color:#4a6378;font-weight:600}.ttr b{color:#16324a}
+</style>
+</head><body>
+<div class="wrap">
+  <div class="top"><a class="home" href="index.html">Bi<span>dik</span></a><a class="btn" href="oyna/index.html">Oyunu aç</a></div>
+  <h1>Öğretmen rehberi</h1>
+  <p>Bidik, bilgi işlemsel düşünmeyi ekranlı ve ekransız etkinliklerle birlikte öğretmek için tasarlandı. Bu rehber bir ders saatlik akışı, kavramların oyundaki karşılığını ve sınıfta işe yarayan soruları içerir.</p>
+
+  <h2>Kavramlar ve bölümler</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Kavram</th><th>Oyundaki yeri</th><th>Önerilen yaş</th><th>Çocuk ne yapar?</th></tr></thead>
+    <tbody>
+      <tr><td>Sıralama</td><td>Kodla Sür 1-10 (ilk adımlar)</td><td>4-6</td><td>Bee-Bot gibi ileri, geri, sola dön, sağa dön bloklarını sırayla dizer. İlk 5 bölümde Bidik yukarı bakar.</td></tr>
+      <tr><td>Göreli yön</td><td>Kodla Sür 11-20 (dönüşler)</td><td>5-7</td><td>Bidik her yöne bakar; çocuk sağ ve solu Bidik'in bakış açısından düşünür.</td></tr>
+      <tr><td>Döngü</td><td>Kodla Sür 21-30</td><td>6-8</td><td>Tekrar eden adımları fark edip “Tekrarla” bloğunun içine alır.</td></tr>
+      <tr><td>Fonksiyon</td><td>Kodla Sür 31-40</td><td>7-10</td><td>Tekrar eden hareket grubunu bir kez yazıp çağırır.</td></tr>
+      <tr><td>Koşul</td><td>Kodla Sür 41-50</td><td>8-12</td><td>“Eğer pembe kare”, “eğer önü kapalı” kuralları yazar.</td></tr>
+      <tr><td>Birleştirme</td><td>Kodla Sür 51-60 (usta)</td><td>9-12 ve yetişkin</td><td>Döngü ve fonksiyonu en az blokla birlikte kullanır.</td></tr>
+      <tr><td>Hata ayıklama</td><td>Her 5. Kodla Sür bölümü, Sulama Robotu, İki Sulama Robotu</td><td>Her yaş</td><td>Hazır ama hatalı programı adım adım çalıştırıp düzeltir; iki robotun kodunu karşılaştırır.</td></tr>
+      <tr><td>Planlama, ayrıştırma</td><td>Yol Kur 1-40</td><td>4-12</td><td>Parça seçer, yolu kurar; posta kutusu, köprü, anahtar-kapı gibi alt hedefleri sıralar.</td></tr>
+      <tr><td>Bölge görevleri</td><td>Gölet, Çiçek Tarlası, Orman, Geri Dönüşüm, Gece Sokakları, Tarla (her biri 12 bölüm)</td><td>4-10</td><td>Aynı blokları bir kasaba sorununu çözmek için kullanır: çöp toplar, çiçek açtırır, fidan diker, atığı doğru kutuya taşır, en az enerjiyle lambaları söndürür, bozuk programı onarır.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Bir ders saatlik akış (40 dakika)</h2>
+  <div class="card">
+    <h3>1. Ekransız ısınma (5 dk)</h3>
+    <p>Bir öğrenci “Bidik” olur. Sınıf ona sadece <b>ileri</b>, <b>sağa dön</b>, <b>sola dön</b> komutlarıyla sıraya kadar yol tarif eder. Öğrencinin sol eline mavi, sağ eline pembe bir bant bağlamak oyundaki renklerle bağ kurar.</p>
+    <h3>2. Tahtada birlikte (10 dk)</h3>
+    <p>Akıllı tahtada bir bölüm açın. Çalıştırmadan önce sorun: <b>“Bidik nereye varacak?”</b> Tahminleri tahtaya yazın, sonra <b>Adım</b> düğmesiyle tek tek çalıştırın.</p>
+    <h3>3. İkili oyun (20 dk)</h3>
+    <p>Öğrenciler ikişerli çalışır. Biri <b>planlayıcı</b> (yolu parmağıyla izler, ne yapılacağını söyler), diğeri <b>kodlayıcı</b> (blokları koyar). Her bölümde rol değiştirin.</p>
+    <h3>4. Paylaşım (5 dk)</h3>
+    <p>“Hatanı nasıl buldun?” ve “Daha kısa yazılabilir miydi?” sorularıyla kapatın. En az blokla çözen ikiliyi tahtada göstermeye davet edin.</p>
+  </div>
+
+  <h2>Ekransız etkinlikler</h2>
+  <p>Her bölgenin görevi, <a href="kartlar.html">yazdırılabilir masa başı kartlarında</a> ekransız olarak da var: 4×4 tahta, kesilecek blok kartları, Bidik pulu, program şeridi ve yol parçaları. Önce masada, sonra ekranda oynamak kavramı pekiştirir. Tahtayı A3'e büyütüp yere koyarsanız çocuklar Bidik olup kendileri yürüyebilir.</p>
+  <h2>Sorulacak sorular</h2>
+  <ul>
+    <li><b>Tahmin:</b> Çalıştırmadan önce Bidik nerede duracak?</li>
+    <li><b>Örüntü:</b> Programında tekrar eden bir parça görüyor musun? Nasıl kısaltırız?</li>
+    <li><b>Soyutlama:</b> Bu hareket grubuna bir ad verseydin ne derdin?</li>
+    <li><b>Koşul:</b> Bidik her karede ne kontrol ediyor? Hangi durumda dönüyor?</li>
+    <li><b>Hata ayıklama:</b> Bidik ilk hangi adımda yanlış yöne gitti? Hangi blok sorumlu?</li>
+    <li><b>Ayrıştırma:</b> Önce hangi posta kutusuna gitmeliyiz? Anahtar kapıdan önce mi gelmeli?</li>
+  </ul>
+
+  <h2>Sağ-sol karışıklığı için</h2>
+  <p class="tip">Bidik'in komutları sınıftaki Bee-Bot, Super Doc ve Cubetto ile aynıdır: ileri, robotun yüzünün baktığı yöne gider; sağ ve sol robota göredir. Küçük yaşlarda sağ-sol kendi bakış açısına göre algılandığı için şu destekler var:</p>
+  <ul>
+    <li>İlk 5 bölümde Bidik <b>yukarı bakar</b>; ileri, ekranın da yukarısıdır. Sonra Bidik her yöne bakmaya başlar.</li>
+    <li>Bidik'in <b>sol anteni ve eli mavi</b>, <b>sağ anteni ve eli pembe</b>; dönüş blokları da aynı renktedir.</li>
+    <li>Sınıfta Bee-Bot'u yere koyup çocuğu robotun arkasına geçirmek, ekrandaki Bidik için de en iyi alıştırmadır.</li>
+  </ul>
+
+  <h2>Sınıf yönetimi</h2>
+  <ul>
+    <li><b>Sınıf kodu (önerilen):</b> Ana ekranın altındaki yeşil <b>Öğretmen: sınıf oluştur</b> düğmesi (ya da Öğretmen / veli menüsünün en üstü) ile 6 karakterlik bir sınıf kodu alın; üyelik gerekmez. Öğrenciler <b>Sınıf kodu</b> düğmesine kodu yazıp numarasını ve karakterini seçer; yıldızları öğretmen paneline gelir. Panelde bölüm kilitleri ve yazdırılabilir QR'lı kod kartları vardır. <a href="oyna/index.html?ogretmen=sinif">Sınıf kodu oluştur →</a></li>
+    <li><b>Oyuncular:</b> Ana ekrandaki oyuncu düğmesinden her öğrenciye ya da ikiliye ayrı profil açın.</li>
+    <li><b>Öğretmen / veli paneli:</b> Her profilin beceri bazında yıldızlarını gösterir.</li>
+    <li><b>Bütün bölümler açık:</b> Açık betada sırayla oynamak gerekmez; tahtada istediğiniz bölümü doğrudan açabilirsiniz. Yaş seviyesine göre kapalı görünen etkinlikler için öğretmen modunda seviyeyi değiştirin ya da “bütün seviyelerin etkinliklerini göster” seçeneğini açın.</li>
+    <li><b>Bidik öğretiyor (dersler):</b> Her yeni kavramdan önce (sıra, dönüş, Tekrarla, fonksiyon, Eğer, hata avcısı) Bidik 1-2 dakikalık güdümlü bir ders verir: önce anlatır, sonra çalıştırıp gösterir, sonra çocuğa küçük bir görev verir. 4-5 yaş ve 1. sınıfta ders zorunludur; 2-4. sınıfta “Atla” vardır. Bölüm listesindeki <b>Öğren</b> düğmesinden istediğiniz zaman tahtada yeniden açabilirsiniz.</li>
+    <li><b>Sıradaki durak:</b> Bir durağın bütün bölümleri bitince kazanma kartı ve bölüm listesi, çocuğu geri dönmeden doğrudan sıradaki durağa (ör. Gölet) geçirir; Bidik yeni görevi sesle duyurur.</li>
+    <li><b>Yıldızlar:</b> 1 yıldız çözmek, 2. yıldız ilk denemede ve ipucusuz çözmek, 3. yıldız en az blok ya da parça ile çözmektir. Üçüncü yıldız “daha iyi bir çözüm var mı?” sorusunu doğal olarak sordurur.</li>
+    <li><b>Veriler:</b> İlerleme cihazın tarayıcısında saklanır; sınıf koduyla katılan öğrencilerin yıldızları ayrıca sınıfın bulut kaydına (adsız: numara + karakter) eşitlenir.</li>
+  </ul>
+  <p style="margin-top:30px"><a href="index.html">← Ana sayfaya dön</a></p>
+</div><div class="wrap"><div class="ttr"><img src="simgeler/ttrobotics-logo.png" alt="TT Robotics logosu" width="96" height="72"><p><b>Bidik bir TT Robotics ürünüdür.</b><br>© 2026 TT Robotics. Tüm hakları saklıdır.</p></div></div>
+
+
+<script>if("serviceWorker" in navigator){const had=!!navigator.serviceWorker.controller;let done=false;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had&&!done){done=true;location.reload()}});window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js",{scope:"./",updateViaCache:"none"}).then(r=>r.update()).catch(()=>{}))}</script>
+</body></html>

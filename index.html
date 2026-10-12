@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8">
+<script>(function(){if(!/github\.io$/.test(location.hostname))return;var h="https://bidik.tr"+location.pathname.replace(/^\/bidik/,"")+location.search+location.hash;var go=function(){location.replace(h)};try{if("serviceWorker" in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister()}))}).then(function(){return caches&&caches.keys?caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k)}))}):null}).then(go,go);setTimeout(go,2500)}else go()}catch(e){go()}})();</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2fae9f">
+<link rel="icon" href="simgeler/simge-192.png">
+<link rel="apple-touch-icon" href="simgeler/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Bidik</title>
+<meta name="description" content="Bidik: çocuklar için bilgi işlemsel düşünme oyunu. Akıllı tahtada, tablette ve bilgisayarda ücretsiz, kurulum gerektirmeden çalışır.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@500;700;800&display=swap">
+<style>
+/* Tanıtım sayfası: oyunla aynı turkuaz oyuncak dünyası; öğretmene hitap eden sade, okunaklı düzen. */
+:root{
+  --sky:#dff4f1; --sky-deep:#b9e4de; --ink:#16324a; --ink-soft:#466179;
+  --board:#2fae9f; --board-edge:#1f8577; --tile:#5cc9bb;
+  --rail:#ffc93c; --rail-edge:#d99a00; --red:#e8443a; --green:#22a165; --blue:#2f7fd8; --pink:#d6409f; --orange:#f08a24; --purple:#8a5cd6; --teal:#0e6f7c;
+  --panel:#ffffff; --panel-line:#cfe7e3;
+  --display:"Baloo 2","Trebuchet MS","Segoe UI",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--sky);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--display);line-height:1.05;text-wrap:balance;margin:0}
+p{margin:0}
+.btn{display:inline-flex;align-items:center;gap:10px;height:58px;padding:0 26px;border-radius:18px;font-family:var(--display);font-weight:800;font-size:22px;text-decoration:none;background:var(--rail);box-shadow:0 5px 0 var(--rail-edge);color:var(--ink)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--rail-edge)}
+.btn.ghost{background:var(--panel);box-shadow:0 5px 0 var(--panel-line);font-size:19px}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+
+/* üst bar */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:16px}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:800;font-size:28px;text-decoration:none}
+.logo span{color:var(--red)}
+.logo svg{width:40px;height:40px}
+.nav nav{display:flex;gap:18px;font-weight:800;font-size:15px}
+.nav nav a{text-decoration:none;color:var(--ink-soft)}
+@media (max-width:640px){.nav nav{display:none}}
+
+/* giriş */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center;padding-block:24px 56px}
+@media (max-width:860px){.hero{grid-template-columns:1fr}}
+.hero .kick{font-weight:800;letter-spacing:1px;text-transform:uppercase;font-size:13px;color:var(--teal)}
+.hero h1{font-size:clamp(40px,6vw,68px);margin:10px 0 14px}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero .lead{font-size:19px;color:var(--ink-soft);font-weight:600;max-width:34em}
+.bid{display:inline-flex;gap:6px;margin:16px 0 24px;font-weight:800}
+.bid span{background:var(--panel);border:2px solid var(--panel-line);border-radius:10px;padding:2px 10px}
+.bid b{color:var(--red)}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero-art{background:#5aa84c;border-radius:28px;box-shadow:0 8px 0 #3d8a3a;padding:14px;max-width:100%}
+.hero-art svg{display:block;width:100%;height:auto}
+
+/* bölümler */
+section{padding-block:52px}
+.sec-head{max-width:46em;margin-bottom:28px}
+.sec-head .kick{font-weight:800;letter-spacing:1px;text-transform:uppercase;font-size:13px;color:var(--teal)}
+.sec-head h2{font-size:clamp(30px,4vw,44px);margin:6px 0 10px}
+.sec-head p{color:var(--ink-soft);font-weight:600}
+.band{background:var(--panel)}
+
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:860px){.skills{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.skills{grid-template-columns:1fr}}
+.skill{border:2px solid var(--panel-line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:8px;background:var(--sky)}
+.skill .chipblk{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:20px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.18)}
+.skill .ico{width:58px;height:58px;display:block;filter:drop-shadow(0 3px 0 rgba(22,50,74,.18))}.skill .ico svg{width:100%;height:100%;display:block}
+.skill .dost{width:58px;height:58px;border-radius:50%;overflow:hidden;display:grid;place-items:center;border:3px solid #fff;box-shadow:0 3px 0 rgba(22,50,74,.15)}.skill .dost svg{width:56px;height:56px;margin-top:5px}
+.hero-art svg text{font-family:var(--display)}
+.skill h3{font-size:22px}
+.skill p{font-size:15px;color:var(--ink-soft);font-weight:600}
+.skill small{font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.6px}
+
+.games{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:760px){.games{grid-template-columns:1fr}}
+.game{background:var(--panel);border-radius:24px;border:3px solid var(--panel-line);padding:18px;display:flex;flex-direction:column;gap:10px}
+.game h3{font-size:30px}
+.game p{color:var(--ink-soft);font-weight:600;font-size:15.5px}
+.game ol{margin:0;padding-left:20px;font-size:15px;font-weight:700;color:var(--ink-soft);display:grid;gap:3px}
+.game ol b{color:var(--ink)}
+
+.class{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:st}
+@media (max-width:860px){.class{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.class{grid-template-columns:1fr}}
+.step{background:var(--sky);border-radius:20px;padding:18px;border:2px solid var(--panel-line)}
+.step .t{font-family:var(--display);font-weight:800;font-size:15px;color:var(--teal)}
+.step h3{font-size:21px;margin:4px 0 6px}
+.step p{font-size:15px;color:var(--ink-soft);font-weight:600}
+
+.devices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:760px){.devices{grid-template-columns:1fr}}
+.dev{background:var(--panel);border-radius:20px;padding:18px;border:2px solid var(--panel-line)}
+.dev h3{font-size:21px;margin-bottom:6px}
+.dev p{font-size:15px;color:var(--ink-soft);font-weight:600}
+
+.faq{display:grid;gap:10px;max-width:820px}
+.faq details{background:var(--panel);border-radius:16px;border:2px solid var(--panel-line);padding:14px 18px}
+.faq summary{font-weight:800;cursor:pointer}
+.faq p{margin-top:8px;color:var(--ink-soft);font-weight:600;font-size:15.5px}
+
+.final{background:var(--board);color:#fff;border-radius:28px;padding:34px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;box-shadow:0 8px 0 var(--board-edge)}
+.final h2{font-size:clamp(28px,4vw,40px)}
+.final p{font-weight:700;opacity:.9}
+footer{padding-block:34px;font-size:14px;color:var(--ink-soft);font-weight:700;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer a{font-weight:800}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.ttr{display:flex;align-items:center;gap:14px;justify-content:center;padding:18px 0 30px;border-top:1px solid rgba(22,50,74,.12);margin-top:8px}.ttr img{width:96px;height:auto;flex:none}.ttr p{margin:0;font-size:13px;line-height:1.5;color:#4a6378;font-weight:600}.ttr b{color:#16324a}
+</style>
+
+</head><body>
+<div class="wrap">
+  <header class="nav">
+    <a class="logo" href="index.html" aria-label="Bidik ana sayfa"><svg viewBox="0 0 200 200" aria-hidden="true"><ellipse cx="100" cy="188" rx="58" ry="8" fill="#16324a" opacity=".12"/>
+  <path d="M80 50 Q66 22 52 18" stroke="#16324a" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="50" cy="17" r="10" fill="#f06aa6" stroke="#16324a" stroke-width="3.5"/>
+  <path d="M120 50 Q134 22 148 18" stroke="#16324a" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="150" cy="17" r="10" fill="#2f7fd8" stroke="#16324a" stroke-width="3.5"/>
+  <ellipse cx="76" cy="182" rx="16" ry="9" fill="#16324a"/><ellipse cx="124" cy="182" rx="16" ry="9" fill="#16324a"/>
+  <circle cx="100" cy="114" r="70" fill="#e8443a" stroke="#16324a" stroke-width="4"/>
+  <path d="M34 130 C50 178 150 178 166 130 C150 168 50 168 34 130Z" fill="#b8302a" opacity=".55"/>
+  <path d="M44 84 Q100 34 156 84 Q100 66 44 84Z" fill="#16324a"/>
+  <circle cx="52" cy="122" r="11" fill="#16324a"/><circle cx="148" cy="122" r="11" fill="#16324a"/><circle cx="68" cy="160" r="9" fill="#16324a"/><circle cx="132" cy="160" r="9" fill="#16324a"/>
+  <ellipse cx="100" cy="122" rx="42" ry="38" fill="#fff6ee"/>
+  <circle cx="83" cy="114" r="14" fill="#fff" stroke="#16324a" stroke-width="3"/><circle cx="85" cy="116" r="8.5" fill="#1b2a3a"/><circle cx="88" cy="111" r="3.4" fill="#fff"/><circle cx="82" cy="119" r="1.6" fill="#fff" opacity=".9"/>
+  <circle cx="117" cy="114" r="14" fill="#fff" stroke="#16324a" stroke-width="3"/><circle cx="119" cy="116" r="8.5" fill="#1b2a3a"/><circle cx="122" cy="111" r="3.4" fill="#fff"/><circle cx="116" cy="119" r="1.6" fill="#fff" opacity=".9"/>
+  <ellipse cx="70" cy="134" rx="8" ry="5" fill="#f49ac1" opacity=".8"/><ellipse cx="130" cy="134" rx="8" ry="5" fill="#f49ac1" opacity=".8"/>
+  <path d="M88 138 Q100 150 112 138" stroke="#16324a" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <circle cx="30" cy="140" r="13" fill="#fff" stroke="#16324a" stroke-width="3.5"/><circle cx="170" cy="140" r="13" fill="#fff" stroke="#16324a" stroke-width="3.5"/>
+  <path d="M60 72 Q72 58 86 56" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" opacity=".35"/></svg><b style="font-weight:800">Bi<span>dik</span></b></a>
+    <nav aria-label="Sayfa içi"><a href="#beceriler">Beceriler</a><a href="#sinifta">Sınıfta kullanım</a><a href="rehber.html">Öğretmen rehberi</a><a href="ogretmen.html">Öğretmen Odası</a><a href="#sss">Sorular</a></nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <span class="kick">Açık beta · Okul öncesi ve ilkokul için</span>
+      <h1>Kodlamadan önce <em>düşünmeyi</em> öğreten oyun</h1>
+      <p class="lead">Bidik, çocukların problemi adımlara bölmesini, örüntü bulmasını, kural yazmasını ve hatasını kendisi bulmasını oyunla öğretir. Akıllı tahtada, tablette ve bilgisayarda kurulum gerektirmeden açılır.</p>
+      <div class="bid" aria-label="Bidik adı Bilgi İşlemsel Düşünme'den gelir"><span><b>B</b>ilgi</span><span><b>İ</b>şlemsel</span><span><b>D</b>üşünme</span></div>
+      <div class="cta">
+        <a class="btn" href="oyna/index.html"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg>Hemen oyna</a>
+        <a class="btn ghost" href="rehber.html">Öğretmen rehberi</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 400 300" role="img" aria-label="Bidik oyun tahtası: Bidik başlangıçtan posta kutusuna uğrayıp okula gidiyor"><g transform="translate(0 0)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#a8dc8a"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="88" rx="27" ry="4" fill="#16324a" opacity=".14"/><g transform="translate(14 24) scale(.72)"><rect x="45" y="58" width="10" height="28" rx="3" fill="#8a5a2b" stroke="#16324a" stroke-width="2.4"/><circle cx="29" cy="56" r="16" fill="#3fae5f" stroke="#16324a" stroke-width="2.6"/><circle cx="71" cy="56" r="16" fill="#3fae5f" stroke="#16324a" stroke-width="2.6"/><path d="M16 60 C30 76 70 76 84 60 C70 70 30 70 16 60Z" fill="#2e8a48" opacity=".5"/><circle cx="50" cy="40" r="27" fill="#3fae5f" stroke="#16324a" stroke-width="2.6"/><path d="M30 56 C40 66 60 66 70 56 C60 62 40 62 30 56Z" fill="#2e8a48" opacity=".45"/><path d="M34 30 Q42 20 54 20" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".4"/></g></g><g transform="translate(100 0)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#9ed37f"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="88" rx="27" ry="4" fill="#16324a" opacity=".14"/><g transform="translate(14 24) scale(.72)"><path d="M16 76 C12 56 26 34 48 32 C72 30 88 48 86 70 C84 84 22 88 16 76Z" fill="#9aa6b4" stroke="#16324a" stroke-width="2.8"/><path d="M30 44 Q44 34 58 38" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".45"/><path d="M24 70 C36 80 68 80 80 68 C70 76 34 76 24 70Z" fill="#5f7489" opacity=".4"/></g></g><g transform="translate(200 0)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#a8dc8a"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/></g><g transform="translate(300 0)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#9ed37f"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/><g class="finish"><rect class="fpad" x="5" y="5" width="90" height="90" rx="14" fill="#fff1a8"/><rect class="fhalo" x="5" y="5" width="90" height="90" rx="14" fill="none" stroke="#ffd23f" stroke-width="8"/><rect class="fring" x="5" y="5" width="90" height="90" rx="14" fill="none" stroke="#f5b400" stroke-width="5"/><g transform="translate(9 6) scale(.82)"><ellipse cx="50" cy="90" rx="36" ry="5" fill="#16324a" opacity=".14"/><rect x="10" y="40" width="80" height="48" rx="4" fill="#ffd166" stroke="#16324a" stroke-width="2.6"/><path d="M4 42 L50 14 L96 42Z" fill="#2f7fd8" stroke="#16324a" stroke-width="2.6" stroke-linejoin="round"/><circle cx="50" cy="31" r="7.5" fill="#fff" stroke="#16324a" stroke-width="2"/><path d="M50 26.5 V31 H53.5" stroke="#16324a" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M50 14 V2" stroke="#16324a" stroke-width="2.6" stroke-linecap="round"/><path d="M50 3 L64 8 L50 13Z" fill="#e8443a" stroke="#16324a" stroke-width="1.8" stroke-linejoin="round"/><rect x="22" y="47" width="56" height="17" rx="4" fill="#fff" stroke="#16324a" stroke-width="2"/><text x="50" y="60.5" text-anchor="middle" font-family="Baloo 2,Trebuchet MS,sans-serif" font-weight="800" font-size="14.5" fill="#16324a" letter-spacing="2">ABC</text><rect x="42" y="68" width="16" height="20" rx="8" fill="#2f7fd8" stroke="#16324a" stroke-width="2.2"/><rect x="42" y="78" width="16" height="10" fill="#2f7fd8" stroke="#16324a" stroke-width="2.2"/><circle cx="54" cy="80.4" r="1.6" fill="#16324a"/><rect x="16" y="68" width="11" height="11" rx="2" fill="#bfe6f7" stroke="#16324a" stroke-width="2.2"/><path d="M21.5 68 V79 M16 73.5 H27" stroke="#16324a" stroke-width="1.6"/><rect x="73" y="68" width="11" height="11" rx="2" fill="#bfe6f7" stroke="#16324a" stroke-width="2.2"/><path d="M78.5 68 V79 M73 73.5 H84" stroke="#16324a" stroke-width="1.6"/></g><g transform="translate(-3 -4) scale(.5)"><g class="flag"><path d="M13 88 V8" stroke="#16324a" stroke-width="5" stroke-linecap="round"/><circle cx="13" cy="7" r="4.5" fill="#e8443a"/><g class="cloth"><rect x="16" y="11" width="8" height="8" fill="#16324a"/><rect x="24" y="11" width="8" height="8" fill="#fff"/><rect x="32" y="11" width="8" height="8" fill="#16324a"/><rect x="40" y="11" width="8" height="8" fill="#fff"/><rect x="16" y="19" width="8" height="8" fill="#fff"/><rect x="24" y="19" width="8" height="8" fill="#16324a"/><rect x="32" y="19" width="8" height="8" fill="#fff"/><rect x="40" y="19" width="8" height="8" fill="#16324a"/><rect x="16" y="27" width="8" height="8" fill="#16324a"/><rect x="24" y="27" width="8" height="8" fill="#fff"/><rect x="32" y="27" width="8" height="8" fill="#16324a"/><rect x="40" y="27" width="8" height="8" fill="#fff"/><rect x="16" y="11" width="32" height="24" fill="none" stroke="#16324a" stroke-width="2.5"/></g></g></g><g class="flabel"><rect x="22" y="76" width="56" height="20" rx="10" fill="#16324a"/><text x="50" y="90.5" text-anchor="middle" font-size="14" font-weight="800" fill="#fff" letter-spacing=".3">Bitiş</text></g></g></g><g transform="translate(0 100)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#9ed37f"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/><g class="startpad"><rect x="8" y="8" width="84" height="84" rx="12" fill="#c5ecd0"/><rect x="8" y="8" width="84" height="84" rx="12" fill="none" stroke="#22a165" stroke-width="4" stroke-dasharray="7 6"/><rect x="16" y="70" width="68" height="24" rx="12" fill="#22a165"/><text x="50" y="88" text-anchor="middle" font-size="16" font-weight="800" fill="#fff" letter-spacing=".3">Başla</text></g></g><g transform="translate(100 100)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#a8dc8a"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/></g><g transform="translate(200 100)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#9ed37f"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/><g class="coin"><ellipse cx="50" cy="80" rx="14" ry="3.5" fill="#16324a" opacity=".15"/><g transform="translate(19 18) scale(.62)"><rect x="46" y="54" width="8" height="32" rx="2" fill="#5f7489" stroke="#16324a" stroke-width="2.4"/><path d="M28 36 a22 22 0 0 1 44 0 V58 H28Z" fill="#2f7fd8" stroke="#16324a" stroke-width="3"/><rect x="37" y="38" width="26" height="6" rx="3" fill="#16324a"/><path d="M72 34 V16 H86 V26 H72" fill="#e8443a" stroke="#16324a" stroke-width="2.4" stroke-linejoin="round"/></g></g></g><g transform="translate(300 100)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#a8dc8a"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/></g><g transform="translate(0 200)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#a8dc8a"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/></g><g transform="translate(100 200)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#9ed37f"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/></g><g transform="translate(200 200)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#a8dc8a"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="88" rx="27" ry="4" fill="#16324a" opacity=".14"/><g transform="translate(14 24) scale(.72)"><rect x="45" y="58" width="10" height="28" rx="3" fill="#8a5a2b" stroke="#16324a" stroke-width="2.4"/><circle cx="29" cy="56" r="16" fill="#3fae5f" stroke="#16324a" stroke-width="2.6"/><circle cx="71" cy="56" r="16" fill="#3fae5f" stroke="#16324a" stroke-width="2.6"/><path d="M16 60 C30 76 70 76 84 60 C70 70 30 70 16 60Z" fill="#2e8a48" opacity=".5"/><circle cx="50" cy="40" r="27" fill="#3fae5f" stroke="#16324a" stroke-width="2.6"/><path d="M30 56 C40 66 60 66 70 56 C60 62 40 62 30 56Z" fill="#2e8a48" opacity=".45"/><path d="M34 30 Q42 20 54 20" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".4"/></g></g><g transform="translate(300 200)"><rect x="3" y="3" width="94" height="94" rx="14" fill="#9ed37f"/><path d="M16 26 l3 -7 l3 7 M74 82 l3 -7 l3 7 M70 20 l2 -5 l2 5" stroke="#86c26a" stroke-width="2.5" fill="none" stroke-linecap="round"/><rect x="2" y="2" width="96" height="96" rx="12" fill="#3b86d9"/><path d="M14 34q9-8 18 0t18 0 18 0 18 0M14 62q9-8 18 0t18 0 18 0 18 0" stroke="#8cc4f5" stroke-width="5" fill="none" stroke-linecap="round"/></g><polyline points="50,150 150,150 250,150 350,150 350,104" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 16" opacity=".9"/><g transform="translate(50 150)"><g class="robot" transform="translate(-6 0) scale(.8)">
+  <path d="M2 -20 L9 -27 M2 20 L9 27 M-12 -22 L-16 -30 M-12 22 L-16 30" stroke="#16324a" stroke-width="3.5" stroke-linecap="round"/>
+  <g class="bl bl-L"><circle cx="10" cy="-30" r="7.5" fill="#2f7fd8" stroke="#fff" stroke-width="2.5"/></g>
+  <g class="bl bl-R"><circle cx="10" cy="30" r="7.5" fill="#d6409f" stroke="#fff" stroke-width="2.5"/></g>
+  <ellipse rx="27" ry="24" fill="#e8443a" stroke="#a8261e" stroke-width="2.5"/>
+  <path d="M-27 0 H8" stroke="#16324a" stroke-width="3"/>
+  <g class="spots" fill="#16324a"><circle cx="-12" cy="-11" r="5"/><circle cx="-12" cy="11" r="5"/><circle cx="2" cy="-15" r="4"/><circle cx="2" cy="15" r="4"/></g>
+  <ellipse cx="-8" cy="-8" rx="8" ry="4" fill="#fff" opacity=".35" transform="rotate(-25 -8 -8)"/>
+  <circle cx="22" cy="0" r="13" fill="#16324a"/>
+  <circle cx="27" cy="-6" r="4.5" fill="#fff"/><circle cx="27" cy="6" r="4.5" fill="#fff"/><circle cx="29" cy="-6" r="2" fill="#16324a"/><circle cx="29" cy="6" r="2" fill="#16324a"/>
+  <g class="bl bl-L"><path d="M30 -8 Q40 -15 43 -23" stroke="#2f7fd8" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="44" cy="-25" r="6.5" fill="#2f7fd8" stroke="#fff" stroke-width="2.5"/></g>
+  <g class="bl bl-R"><path d="M30 8 Q40 15 43 23" stroke="#d6409f" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="44" cy="25" r="6.5" fill="#d6409f" stroke="#fff" stroke-width="2.5"/></g>
+</g></g><g transform="translate(10 230)"><rect x="-6" y="-6" width="212" height="56" rx="14" fill="#fff" stroke="#16324a" stroke-width="2.4"/><g transform="translate(0 0)"><rect width="96" height="44" rx="12" fill="#f08a24" stroke="#16324a" stroke-width="2"/><text x="22" y="28" text-anchor="middle" font-family="Baloo 2,Trebuchet MS,sans-serif" font-weight="800" font-size="19" fill="#fff">3×</text><rect x="46" y="4" width="46" height="36" rx="9" fill="#fff"/><g transform="translate(49 7) scale(.75)"><rect width="40" height="40" rx="9" fill="#22a165" stroke="#16324a" stroke-width="2"/><path d="M20 30 V10 M12 18 l8 -8 8 8" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g><g transform="translate(104 2)"><g transform="translate(0 0)"><rect width="40" height="40" rx="9" fill="#d6409f" stroke="#16324a" stroke-width="2"/><path d="M12 30 V18 a6 6 0 0 1 6 -6 h10 M22 6 l6 6 -6 6" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g><g transform="translate(48 0)"><rect width="40" height="40" rx="9" fill="#22a165" stroke="#16324a" stroke-width="2"/><path d="M20 30 V10 M12 18 l8 -8 8 8" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g></g></svg>
+    </div>
+  </div>
+</div>
+
+<section class="band" id="beceriler">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kick">Ne öğretir?</span>
+      <h2>Kodla Sür: altı aşamada blok kodlama</h2>
+      <p>Her beceri oyunda ayrı bir bölüm grubuyla açılır. Öğretmen panelinde her öğrencinin hangi beceride ne kadar ilerlediği görünür.</p>
+    </div>
+    <div class="skills">
+      <div class="skill"><span class="ico"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#22a165"/><path d="M20 44 V20" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/><rect x="12" y="10" width="16" height="12" rx="4" fill="#fff" stroke="#16324a" stroke-width="2"/><text x="20" y="19.5" text-anchor="middle" font-family="Baloo 2,Trebuchet MS,sans-serif" font-weight="800" font-size="10" fill="#16324a">1</text><rect x="12" y="26" width="16" height="12" rx="4" fill="#fff" stroke="#16324a" stroke-width="2"/><text x="20" y="35.5" text-anchor="middle" font-family="Baloo 2,Trebuchet MS,sans-serif" font-weight="800" font-size="10" fill="#16324a">2</text><rect x="12" y="42" width="16" height="12" rx="4" fill="#fff" stroke="#16324a" stroke-width="2"/><text x="20" y="51.5" text-anchor="middle" font-family="Baloo 2,Trebuchet MS,sans-serif" font-weight="800" font-size="10" fill="#16324a">3</text><path d="M34 16 h10 a6 6 0 0 1 6 6 v16 a6 6 0 0 1 -6 6 h-6" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M42 40 l-6 4 6 4" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3>Algoritma</h3><p>Komutları doğru sıraya dizmek, bir yolu adım adım planlamak.</p><small>İlk adımlar</small></div>
+      <div class="skill"><span class="ico"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#f08a24"/><circle cx="13" cy="18" r="5.5" fill="#fff" stroke="#16324a" stroke-width="2"/><rect x="20.5" y="12.5" width="11" height="11" rx="3" fill="#ffe14d" stroke="#16324a" stroke-width="2"/><circle cx="38" cy="18" r="5.5" fill="#fff" stroke="#16324a" stroke-width="2"/><rect x="45.5" y="12.5" width="11" height="11" rx="3" fill="#ffe14d" stroke="#16324a" stroke-width="2"/><path d="M14 46 a8 8 0 1 1 3 6" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M14 40 v6 h6" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="46" y="51" text-anchor="middle" font-family="Baloo 2,Trebuchet MS,sans-serif" font-weight="800" font-size="15" fill="#fff">3×</text></svg></span><h3>Örüntü tanıma</h3><p>Tekrar eden hareketi fark edip döngüyle kısaltmak.</p><small>Döngüler</small></div>
+      <div class="skill"><span class="ico"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#8a5cd6"/><rect x="10" y="16" width="44" height="36" rx="8" fill="#fff" stroke="#16324a" stroke-width="2.2"/><rect x="18" y="6" width="28" height="16" rx="6" fill="#5f3fb0" stroke="#16324a" stroke-width="2"/><text x="32" y="18" text-anchor="middle" font-family="Baloo 2,Trebuchet MS,sans-serif" font-weight="800" font-size="12" fill="#fff">F</text><rect x="16" y="28" width="14" height="14" rx="4" fill="#22a165" stroke="#16324a" stroke-width="1.8"/><rect x="34" y="28" width="14" height="14" rx="4" fill="#2f7fd8" stroke="#16324a" stroke-width="1.8"/><path d="M23 38 V32 M20 35 l3 -3 3 3" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M38 38 V35 a3 3 0 0 1 3 -3 h4" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></span><h3>Soyutlama</h3><p>Tekrar eden bir parçayı fonksiyona koyup yeniden kullanmak.</p><small>Fonksiyonlar</small></div>
+      <div class="skill"><span class="ico"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#14a89a"/><path d="M32 8 l14 14 -14 14 -14 -14z" fill="#fff" stroke="#16324a" stroke-width="2.2" stroke-linejoin="round"/><text x="32" y="26" text-anchor="middle" font-family="Baloo 2,Trebuchet MS,sans-serif" font-weight="800" font-size="13" fill="#16324a">?</text><path d="M18 22 h-6 v22 h8 M46 22 h6 v22 h-8" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 40 l4 4 -4 4 M48 40 l-4 4 4 4" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="54" r="5" fill="#22a165" stroke="#16324a" stroke-width="1.8"/><path d="M9.5 54 l2 2 3.5 -4" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="52" cy="54" r="5" fill="#e8443a" stroke="#16324a" stroke-width="1.8"/><path d="M50 52 l4 4 M54 52 l-4 4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span><h3>Koşullu düşünme</h3><p>“Eğer önü kapalıysa sağa dön” gibi duruma göre karar veren kurallar yazmak.</p><small>Koşullar</small></div>
+      <div class="skill"><span class="ico"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#2f7fd8"/><rect x="10" y="10" width="20" height="20" rx="5" fill="#fff" stroke="#16324a" stroke-width="2"/><rect x="34" y="10" width="20" height="20" rx="5" fill="#ffc93c" stroke="#16324a" stroke-width="2"/><rect x="10" y="34" width="20" height="20" rx="5" fill="#f49ac1" stroke="#16324a" stroke-width="2"/><rect x="34" y="34" width="20" height="20" rx="5" fill="#7cc35a" stroke="#16324a" stroke-width="2"/><path d="M32 6 V58 M6 32 H58" stroke="#16324a" stroke-width="2" stroke-dasharray="3 3" opacity=".7"/></svg></span><h3>Ayrıştırma</h3><p>Büyük problemi altın, anahtar, kapı gibi küçük hedeflere bölmek.</p><small>Yol Kur</small></div>
+      <div class="skill"><span class="ico"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#e8443a"/><rect x="8" y="40" width="12" height="12" rx="3" fill="#22a165" stroke="#16324a" stroke-width="1.8"/><rect x="24" y="40" width="12" height="12" rx="3" fill="#2f7fd8" stroke="#16324a" stroke-width="1.8"/><rect x="40" y="40" width="12" height="12" rx="3" fill="#22a165" stroke="#16324a" stroke-width="1.8"/><circle cx="30" cy="26" r="13" fill="#fff" fill-opacity=".92" stroke="#16324a" stroke-width="2.4"/><rect x="23" y="19" width="14" height="14" rx="3.5" fill="#ffb3ad" stroke="#b8302a" stroke-width="2"/><path d="M26 22 l8 8 M34 22 l-8 8" stroke="#b8302a" stroke-width="2.4" stroke-linecap="round"/><path d="M40 36 l10 10" stroke="#16324a" stroke-width="5" stroke-linecap="round"/></svg></span><h3>Hata ayıklama</h3><p>Programı adım adım çalıştırıp hatanın nerede başladığını bulmak.</p><small>Hata avcısı görevleri</small></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kick">Bidik Kasabayı İyileştiriyor</span>
+      <h2>Yedi sorun, yedi dost, tek kodlama dili</h2>
+      <p>Bidik'in kasabasında sürdürülebilir kalkınma amaçlarıyla ilgili yedi sorun var. Çocuk her sorunu aynı oyun diliyle (İleri, Geri, Sola dön, Sağa dön) kodlayarak çözer; çözülen bölge haritada iyileşir. Bilgi işlemsel düşünmenin her boyutu bir oyun mekaniğinde yaşanır.</p>
+    </div>
+    <div class="skills">
+      <div class="skill"><span class="dost" style="background:#f6c87a"><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#16324a" stroke-width="2.6" stroke-linejoin="round">
+    <path d="M12 72 L8 58 L16 54 L10 42 L20 40 L18 28 L28 30 L30 18 L38 24 L42 12 L48 20 L54 10 L58 20 L66 12 L68 24 L76 18 L78 30 L86 28 L84 40 L92 42 L86 54 L92 60 L88 72 Z" fill="#8a5a2b"/>
+    <ellipse cx="50" cy="62" rx="31" ry="27" fill="#f6dcbd"/></g>
+    <path d="M24 44 l6 -8 M40 30 l4 -8 M60 30 l-4 -8 M76 44 l-6 -8" stroke="#6b4226" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    <path d="M22 70 C30 86 70 86 78 70 C72 84 28 84 22 70Z" fill="#e8c39a" opacity=".8"/>
+    <circle cx="19" cy="60" r="6" fill="#f6dcbd" stroke="#16324a" stroke-width="2.4"/><circle cx="81" cy="60" r="6" fill="#f6dcbd" stroke="#16324a" stroke-width="2.4"/>
+    <circle cx="39" cy="58" r="7" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="39.7" cy="58.98" r="4.34" fill="#1b2a3a"/><circle cx="41.38" cy="55.9" r="1.82" fill="#fff"/><circle cx="37.74" cy="60.1" r="0.84" fill="#fff" opacity=".9"/><circle cx="61" cy="58" r="7" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="61.7" cy="58.98" r="4.34" fill="#1b2a3a"/><circle cx="63.38" cy="55.9" r="1.82" fill="#fff"/><circle cx="59.74" cy="60.1" r="0.84" fill="#fff" opacity=".9"/>
+    <ellipse cx="50" cy="71" rx="5.5" ry="4.5" fill="#3b2418"/><circle cx="48.5" cy="69.5" r="1.4" fill="#fff" opacity=".8"/>
+    <path d="M44 78 q6 6.6000000000000005 12 0" stroke="#16324a" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="30" cy="70" rx="6.5" ry="3.9" fill="#f49ac1" opacity=".7"/><ellipse cx="70" cy="70" rx="6.5" ry="3.9" fill="#f49ac1" opacity=".7"/></svg></span><h3>Mahalle · Kirpi Kiko</h3><p>Okula ve parka güvenli yol yok. Ayrıştırma: büyük yolu küçük hedeflere bölerek kur.</p><small>B1 · SKA 11 · 9 · Yol Kur</small></div>
+      <div class="skill"><span class="dost" style="background:#7fd0ea"><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#16324a" stroke-width="2.6" stroke-linejoin="round">
+    <ellipse cx="50" cy="62" rx="38" ry="29" fill="#5cbf5a"/>
+    <circle cx="30" cy="33" r="15" fill="#5cbf5a"/><circle cx="70" cy="33" r="15" fill="#5cbf5a"/></g>
+    <path d="M14 66 C20 86 80 86 86 66 C78 82 22 82 14 66Z" fill="#3f9a45" opacity=".55"/>
+    <ellipse cx="50" cy="73" rx="25" ry="13" fill="#b9ecaa"/>
+    <circle cx="30" cy="33" r="10" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="31" cy="34.4" r="6.2" fill="#1b2a3a"/><circle cx="33.4" cy="30" r="2.6" fill="#fff"/><circle cx="28.2" cy="36" r="1.2" fill="#fff" opacity=".9"/><circle cx="70" cy="33" r="10" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="71" cy="34.4" r="6.2" fill="#1b2a3a"/><circle cx="73.4" cy="30" r="2.6" fill="#fff"/><circle cx="68.2" cy="36" r="1.2" fill="#fff" opacity=".9"/>
+    <path d="M26 58 Q50 80 74 58" stroke="#16324a" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+    <path d="M42 66 Q50 74 58 66 Q50 71 42 66Z" fill="#e8708f"/>
+    <circle cx="44" cy="49" r="1.8" fill="#16324a"/><circle cx="56" cy="49" r="1.8" fill="#16324a"/>
+    <ellipse cx="22" cy="60" rx="6" ry="3.5999999999999996" fill="#f49ac1" opacity=".7"/><ellipse cx="78" cy="60" rx="6" ry="3.5999999999999996" fill="#f49ac1" opacity=".7"/></svg></span><h3>Gölet · Kurbağa Kuki</h3><p>Gölet kirlenmiş. Algoritma: Bidik'i adım adım kodla.</p><small>B4 · SKA 6 · 14 · Kodla Sür</small></div>
+      <div class="skill"><span class="dost" style="background:#f49ac1"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="bidikBeeClip"><circle cx="50" cy="58" r="33"/></clipPath></defs>
+    <g stroke="#16324a" stroke-width="2.4" stroke-linejoin="round">
+    <ellipse cx="27" cy="34" rx="17" ry="11" fill="#dff4ff" transform="rotate(-28 27 34)"/><ellipse cx="73" cy="34" rx="17" ry="11" fill="#dff4ff" transform="rotate(28 73 34)"/>
+    <path d="M40 24 Q34 10 26 8 M60 24 Q66 10 74 8" fill="none" stroke-linecap="round"/>
+    <circle cx="26" cy="8" r="4" fill="#16324a"/><circle cx="74" cy="8" r="4" fill="#16324a"/>
+    <circle cx="50" cy="58" r="33" fill="#ffc93c"/></g>
+    <g clip-path="url(#bidikBeeClip)"><path d="M10 58 Q50 66 90 58 L90 47 Q50 55 10 47Z M10 78 Q50 90 90 78 L90 68 Q50 80 10 68Z" fill="#2b2f3a"/><path d="M14 72 C30 94 70 94 86 72 C70 90 30 90 14 72Z" fill="#000" opacity=".12"/></g>
+    <circle cx="50" cy="58" r="33" fill="none" stroke="#16324a" stroke-width="2.4"/>
+    <circle cx="40" cy="52" r="7" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="40.7" cy="52.98" r="4.34" fill="#1b2a3a"/><circle cx="42.38" cy="49.9" r="1.82" fill="#fff"/><circle cx="38.74" cy="54.1" r="0.84" fill="#fff" opacity=".9"/><path d="M33.7 46.75 l-2.4 -2.2 M37.55 44.65 l-1.2 -3 M42.45 44.65 l1.2 -3" stroke="#16324a" stroke-width="1.8" stroke-linecap="round" fill="none"/><circle cx="60" cy="52" r="7" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="60.7" cy="52.98" r="4.34" fill="#1b2a3a"/><circle cx="62.38" cy="49.9" r="1.82" fill="#fff"/><circle cx="58.74" cy="54.1" r="0.84" fill="#fff" opacity=".9"/><path d="M53.7 46.75 l-2.4 -2.2 M57.55 44.65 l-1.2 -3 M62.45 44.65 l1.2 -3" stroke="#16324a" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <path d="M44 66 q6 6.6000000000000005 12 0" stroke="#16324a" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="29" cy="62" rx="6" ry="3.5999999999999996" fill="#f49ac1" opacity=".7"/><ellipse cx="71" cy="62" rx="6" ry="3.5999999999999996" fill="#f49ac1" opacity=".7"/></svg></span><h3>Çiçek Tarlası · Arı Bal</h3><p>Arılar polen bulamıyor. Örüntü: tekrar eden adımları döngüyle kısalt.</p><small>B2 · SKA 15 · 2 · Döngüler</small></div>
+      <div class="skill"><span class="dost" style="background:#6fbf73"><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#16324a" stroke-width="2.6" stroke-linejoin="round">
+    <path d="M66 90 C96 86 102 44 84 26 C70 14 56 24 62 38 C74 50 80 66 66 80Z" fill="#c26a2c"/>
+    <path d="M26 30 L21 8 L37 22Z M62 30 L67 8 L51 22Z" fill="#c26a2c"/>
+    <ellipse cx="44" cy="52" rx="27" ry="28" fill="#d9813f"/></g>
+    <path d="M74 84 C90 76 92 50 82 38" stroke="#efa868" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M27 26 L25 15 L32 22Z M61 26 L63 15 L56 22Z" fill="#f2b5a0"/>
+    <path d="M19 60 C26 80 62 80 69 60 C62 76 26 76 19 60Z" fill="#b8622a" opacity=".45"/>
+    <ellipse cx="44" cy="65" rx="15" ry="12" fill="#fbe3cb"/>
+    <ellipse cx="44" cy="59" rx="4.8" ry="3.8" fill="#3b2418"/><circle cx="42.5" cy="58" r="1.3" fill="#fff" opacity=".8"/>
+    <circle cx="33" cy="46" r="6.5" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="33.65" cy="46.91" r="4.03" fill="#1b2a3a"/><circle cx="35.21" cy="44.05" r="1.69" fill="#fff"/><circle cx="31.83" cy="47.95" r="0.78" fill="#fff" opacity=".9"/><circle cx="55" cy="46" r="6.5" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="55.65" cy="46.91" r="4.03" fill="#1b2a3a"/><circle cx="57.21" cy="44.05" r="1.69" fill="#fff"/><circle cx="53.83" cy="47.95" r="0.78" fill="#fff" opacity=".9"/><path d="M39.5 69 q4.5 4.95 9 0" stroke="#3b2418" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="26" cy="58" rx="5.5" ry="3.3" fill="#f49ac1" opacity=".7"/><ellipse cx="62" cy="58" rx="5.5" ry="3.3" fill="#f49ac1" opacity=".7"/>
+    <g transform="translate(42 86)"><ellipse rx="9" ry="10" fill="#b5743c" stroke="#16324a" stroke-width="2.2"/><path d="M-10 -4 Q0 -15 10 -4Z" fill="#7a4a20" stroke="#16324a" stroke-width="2.2" stroke-linejoin="round"/></g>
+    <circle cx="30" cy="86" r="6" fill="#d9813f" stroke="#16324a" stroke-width="2.2"/><circle cx="56" cy="86" r="6" fill="#d9813f" stroke="#16324a" stroke-width="2.2"/></svg></span><h3>Orman · Sincap Fındık</h3><p>Ağaçlar kesilmiş. Soyutlama: tekrar eden parçaya ad ver, fonksiyonla kullan.</p><small>B3 · SKA 13 · 15 · Kalem Bidik, Fonksiyonlar</small></div>
+      <div class="skill"><span class="dost" style="background:#9fb4c9"><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#16324a" stroke-width="2.6" stroke-linejoin="round">
+    <path d="M50 12 C26 12 16 36 18 60 C20 82 34 94 50 94 C66 94 80 82 82 60 C84 36 74 12 50 12Z" fill="#3f4858"/>
+    <path d="M38 16 Q42 2 50 10 Q56 0 62 14" fill="#3f4858"/></g>
+    <ellipse cx="50" cy="70" rx="20" ry="16" fill="#66718a"/>
+    <path d="M22 70 C30 90 70 90 78 70 C70 86 30 86 22 70Z" fill="#000" opacity=".18"/>
+    <circle cx="38" cy="44" r="8" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="38.8" cy="45.12" r="4.96" fill="#1b2a3a"/><circle cx="40.72" cy="41.6" r="2.08" fill="#fff"/><circle cx="36.56" cy="46.4" r="0.96" fill="#fff" opacity=".9"/><circle cx="62" cy="44" r="8" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="62.8" cy="45.12" r="4.96" fill="#1b2a3a"/><circle cx="64.72" cy="41.6" r="2.08" fill="#fff"/><circle cx="60.56" cy="46.4" r="0.96" fill="#fff" opacity=".9"/>
+    <path d="M41 56 L59 56 L50 73Z" fill="#f2b33d" stroke="#16324a" stroke-width="2.2" stroke-linejoin="round"/><path d="M44 60 L56 60" stroke="#c98a1a" stroke-width="1.6"/>
+    <ellipse cx="27" cy="58" rx="6" ry="3.5999999999999996" fill="#f49ac1" opacity=".7"/><ellipse cx="73" cy="58" rx="6" ry="3.5999999999999996" fill="#f49ac1" opacity=".7"/>
+    <path d="M20 73 C34 84 66 84 80 73 L80 81 C66 94 34 94 20 81Z" fill="#22a165" stroke="#16324a" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M72 80 L88 86 L78 95Z" fill="#22a165" stroke="#16324a" stroke-width="2.2" stroke-linejoin="round"/></svg></span><h3>Geri Dönüşüm · Karga Kara</h3><p>Çöpler karışık. Koşul: “eğer… ise…” kuralıyla karar ver.</p><small>B5 · SKA 12 · Koşullar</small></div>
+      <div class="skill"><span class="dost" style="background:#4a5d9c"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="82" r="17" fill="#fff38a" opacity=".5"/>
+    <g stroke="#16324a" stroke-width="2.4" stroke-linejoin="round">
+    <ellipse cx="25" cy="48" rx="14" ry="21" fill="#e6f4ff" transform="rotate(-22 25 48)"/><ellipse cx="75" cy="48" rx="14" ry="21" fill="#e6f4ff" transform="rotate(22 75 48)"/>
+    <path d="M42 20 Q36 6 30 6 M58 20 Q64 6 70 6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="50" cy="58" rx="21" ry="25" fill="#4a5d9c"/>
+    <circle cx="50" cy="82" r="11" fill="#ffe14d"/>
+    <circle cx="50" cy="36" r="18" fill="#2b3a6e"/></g>
+    <circle cx="30" cy="6" r="3.8" fill="#ffe14d" stroke="#16324a" stroke-width="1.8"/><circle cx="70" cy="6" r="3.8" fill="#ffe14d" stroke="#16324a" stroke-width="1.8"/>
+    <path d="M44 77 q6 8 12 0" stroke="#fff7b0" stroke-width="2" fill="none" stroke-linecap="round" opacity=".9"/>
+    <circle cx="43" cy="35" r="6" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="43.6" cy="35.84" r="3.7199999999999998" fill="#1b2a3a"/><circle cx="45.04" cy="33.2" r="1.56" fill="#fff"/><circle cx="41.92" cy="36.8" r="0.72" fill="#fff" opacity=".9"/><circle cx="57" cy="35" r="6" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="57.6" cy="35.84" r="3.7199999999999998" fill="#1b2a3a"/><circle cx="59.04" cy="33.2" r="1.56" fill="#fff"/><circle cx="55.92" cy="36.8" r="0.72" fill="#fff" opacity=".9"/><ellipse cx="37" cy="44" rx="4.5" ry="2.6999999999999997" fill="#f49ac1" opacity=".7"/><ellipse cx="63" cy="44" rx="4.5" ry="2.6999999999999997" fill="#f49ac1" opacity=".7"/>
+    <path d="M45 45 q5 4 10 0" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></span><h3>Gece Sokakları · Ateşböceği Işıl</h3><p>Enerji boşa gidiyor. Verimli algoritma: en kısa program, en az enerji.</p><small>B4 · SKA 7 · 13 · Usta bölümler</small></div>
+      <div class="skill"><span class="dost" style="background:#c9a66b"><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#16324a" stroke-width="2.4" stroke-linejoin="round">
+    <ellipse cx="36" cy="22" rx="9.5" ry="22" fill="#f6f8fb"/><ellipse cx="64" cy="22" rx="9.5" ry="22" fill="#f6f8fb"/></g>
+    <ellipse cx="36" cy="24" rx="4.5" ry="15" fill="#f8b4d0"/><ellipse cx="64" cy="24" rx="4.5" ry="15" fill="#f8b4d0"/>
+    <g stroke="#16324a" stroke-width="2.4" stroke-linejoin="round">
+    <path d="M13 46 C20 33 80 33 87 46 C80 51 20 51 13 46Z" fill="#f2cf6b"/><rect x="33" y="33" width="34" height="12" rx="5" fill="#f2cf6b"/></g>
+    <path d="M34 43 H66" stroke="#e8443a" stroke-width="3.2"/>
+    <g transform="translate(62 40)"><circle r="5" fill="#fff" stroke="#16324a" stroke-width="1.6"/><circle r="2" fill="#ffc93c"/></g>
+    <ellipse cx="50" cy="67" rx="29" ry="26" fill="#f6f8fb" stroke="#16324a" stroke-width="2.6"/>
+    <path d="M23 74 C30 90 70 90 77 74 C70 86 30 86 23 74Z" fill="#dfe6ee" opacity=".9"/>
+    <circle cx="39" cy="62" r="7" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="39.7" cy="62.98" r="4.34" fill="#1b2a3a"/><circle cx="41.38" cy="59.9" r="1.82" fill="#fff"/><circle cx="37.74" cy="64.1" r="0.84" fill="#fff" opacity=".9"/><circle cx="61" cy="62" r="7" fill="#fff" stroke="#16324a" stroke-width="1.8"/><circle cx="61.7" cy="62.98" r="4.34" fill="#1b2a3a"/><circle cx="63.38" cy="59.9" r="1.82" fill="#fff"/><circle cx="59.74" cy="64.1" r="0.84" fill="#fff" opacity=".9"/>
+    <path d="M46 72 L54 72 L50 77Z" fill="#f49ac1" stroke="#16324a" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M50 77 V81 M43 83 q7 5 14 0" stroke="#16324a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <path d="M26 72 l-10 -2 M26 76 l-10 2 M74 72 l10 -2 M74 76 l10 2" stroke="#b8c2cc" stroke-width="1.8" stroke-linecap="round"/>
+    <ellipse cx="31" cy="74" rx="6" ry="3.5999999999999996" fill="#f49ac1" opacity=".7"/><ellipse cx="69" cy="74" rx="6" ry="3.5999999999999996" fill="#f49ac1" opacity=".7"/></svg></span><h3>Tarla · Tavşan Pıtır</h3><p>Sulama programı bozuk. Hata ayıklama: hatanın nerede başladığını bul ve düzelt.</p><small>B6 · SKA 6 · 2 · Hata Avcısı</small></div>
+    </div>
+    <p style="margin-top:14px;font-weight:700">Final: <b>Kasaba Meydanı</b>. Bütün sorunlar çözülünce dostlar şenlikte buluşur (SKA 17: Amaçlar için ortaklıklar). Okul öncesinden 4. sınıfa kadar seviye seçilir; her seviyede yalnızca o yaşa uygun bölümler açılır.</p>
+  </div>
+</section>
+
+<section class="band" id="sinifta">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kick">Sınıfta kullanım</span>
+      <h2>Bir ders saatinde dört adım</h2>
+      <p>Ayrıntılı ders akışı, kavram tablosu ve sorulacak sorular <a href="rehber.html">öğretmen rehberinde</a>. Ekransız oynamak için <a href="kartlar.html">yazdırılabilir masa başı kartlarını</a>, hazır ders planı ve çalışma yaprakları için <a href="ogretmen.html">Öğretmen Odası</a>nı kullanın.</p>
+    </div>
+    <div class="class">
+      <div class="step"><span class="t">5 dk</span><h3>Ekransız ısınma</h3><p>Bir öğrenci “Bidik” olur, sınıf ona “ileri, sağa dön” komutları verir.</p></div>
+      <div class="step"><span class="t">10 dk</span><h3>Tahtada birlikte</h3><p>Akıllı tahtada bir bölümü sınıfça çözün. Çalıştırmadan önce tahmin isteyin.</p></div>
+      <div class="step"><span class="t">20 dk</span><h3>İkili oyun</h3><p>Öğrenciler ikişer ikişer oynar: biri planlar, diğeri bloğu koyar, sonra yer değiştirir.</p></div>
+      <div class="step"><span class="t">5 dk</span><h3>Paylaşım</h3><p>“Hatanı nasıl buldun?” sorusuyla kapanış. En kısa programı yazan grubu tahtaya davet edin.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kick">Cihazlar</span>
+      <h2>Okuldaki her ekranda çalışır</h2>
+    </div>
+    <div class="devices">
+      <div class="dev"><h3>Akıllı tahta</h3><p>Etkileşimli tahtanın tarayıcısında açın. Yatay ekranda oyun tahtası solda, bloklar sağda durur; dokunmatik çalışır.</p></div>
+      <div class="dev"><h3>Tablet ve telefon</h3><p>Tarayıcıdan açıp “Ana ekrana ekle” deyin; uygulama gibi tam ekran açılır. Android uygulaması da hazırlanıyor.</p></div>
+      <div class="dev"><h3>Bilgisayar laboratuvarı</h3><p>Kurulum yok. Bir kez açıldıktan sonra internet kesilse de çalışmaya devam eder.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="sss">
+  <div class="wrap">
+    <div class="sec-head"><span class="kick">Sorular</span><h2>Öğretmenlerin sık sorduğu sorular</h2></div>
+    <div class="faq">
+      <details><summary>Ücretli mi? Hesap açmak gerekiyor mu?</summary><p>Bidik şu an <b>açık beta</b> aşamasında: bütün içerik herkese ücretsiz ve hesap, e-posta ya da giriş istemez. İleride temel oyunlar ücretsiz kalacak, ek içerikler ve kurum lisansları üyelikle sunulacak. Değişiklikler önceden duyurulacak.</p></details>
+      <details><summary>Bir hata buldum, nasıl bildiririm?</summary><p>Çok sevinir ve teşekkür ederiz. <a href="mailto:topcubasitolga@gmail.com?subject=Bidik%20beta%20geri%20bildirim">topcubasitolga@gmail.com</a> adresine hangi cihazda (tahta, tablet, bilgisayar), hangi oyunda ve bölümde ne olduğunu yazmanız yeterli.</p></details>
+      <details><summary>Öğrencilerin verileri nereye gidiyor?</summary><p>Normalde hiçbir yere: oyuncu adları ve yıldızlar yalnızca o cihazın tarayıcısında saklanır, sunucuya gönderilmez. Öğretmen <b>sınıf kodu</b> kullanırsa öğrencinin yalnızca sınıf numarası, seçtiği karakter ve yıldızları sınıfın bulut kaydına adsız olarak eşitlenir; ad, e-posta ya da fotoğraf hiçbir zaman istenmez. Reklam ve takip aracı yoktur. Ayrıntılar <a href="gizlilik.html">gizlilik politikasında</a>.</p></details>
+      <details><summary>Aynı tablette birden fazla öğrenci oynayabilir mi?</summary><p>Evet. Ana ekrandaki oyuncu düğmesinden her öğrenci için ayrı profil açabilirsiniz. Öğretmen panelinde hepsinin beceri bazında ilerlemesi görünür.</p></details>
+      <details><summary>Okuma bilmeyen çocuklar oynayabilir mi?</summary><p>Evet. Bloklar resimli ve renklidir; sesler ve görseller yönlendirir. Komutlar sınıftaki Bee-Bot, Super Doc ve Cubetto ile aynı mantıkta çalışır: ileri, Bidik'in yüzünün baktığı yöne gider.</p></details>
+      <details><summary>Bir bölümü tahtada göstermek istiyorum ama kilitli.</summary><p>Açık betada bütün bölümler açıktır; sırayla oynamak gerekmez. Yaş seviyesine göre kapalı görünen etkinlikler için ana ekrandaki <b>Öğretmen / veli</b> düğmesinden öğretmen modunu açın: seviyeyi değiştirebilir, haritada bütün seviyelerin etkinliklerini gösterebilir ve her bölümde <b>Çözümü göster</b> ile çözümü adım adım izletebilirsiniz.</p></details>
+    </div>
+  </div>
+</section>
+
+<div class="wrap" style="padding-block:52px 0">
+  <div class="final">
+    <div><h2>Bidik çiçeğine ulaşmak için sınıfınızı bekliyor</h2><p>Kurulum yok, hesap yok. Açık beta süresince her şey ücretsiz.</p></div>
+    <a class="btn" href="oyna/index.html">Hemen oyna</a>
+  </div>
+  <footer>
+    <span>Bidik bir <b>TT Robotics</b> ürünüdür.</span>
+    <span><a href="rehber.html">Öğretmen rehberi</a> · <a href="kartlar.html">Masa başı kartlar</a> · <a href="gizlilik.html">Gizlilik</a> · <a href="mailto:topcubasitolga@gmail.com?subject=Bidik%20beta%20geri%20bildirim">Görüş / hata bildir</a></span>
+  </footer>
+  <div class="ttr"><img src="simgeler/ttrobotics-logo.png" alt="TT Robotics logosu" width="96" height="72"><p><b>Bidik bir TT Robotics ürünüdür.</b><br>© 2026 TT Robotics. Tüm hakları saklıdır.</p></div>
+</div>
+
+<script>if("serviceWorker" in navigator){const had=!!navigator.serviceWorker.controller;let done=false;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had&&!done){done=true;location.reload()}});window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js",{scope:"./",updateViaCache:"none"}).then(r=>r.update()).catch(()=>{}))}</script>
+</body></html>
